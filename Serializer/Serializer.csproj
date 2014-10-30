@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backend.cs" />
     <Compile Include="SerializerI\Assembly.cs" />
     <Compile Include="SerializerI\AssemblyPart.cs" />
     <Compile Include="SerializerI\IAssemblyPartConverter.cs" />

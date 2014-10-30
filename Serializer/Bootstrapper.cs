@@ -11,50 +11,74 @@ namespace Serializer
         /// <summary>
         /// The string is the name of the type, the actual type isn't used since memory concerns
         /// </summary>
-        [NotNull] private readonly Dictionary<string, SerializationTree> _serializationTreePool;
+        private readonly Dictionary<string, SerializationTree> _serializationTreeMap;
         /// <summary>
         /// The int is for the hashcode of the object the ValuePool is mapped to
         /// </summary>
-        [NotNull] private readonly Dictionary<int, ValuePool> _valuePoolMapping;
+        private readonly Dictionary<int, ValuePool> _valuePoolMap;
 
-        [NotNull] private readonly HashSet<Type> _atomicTypes= new HashSet<Type>
-        {
-            typeof(string),
-            typeof(int),
-            typeof(byte),
-            typeof(short),
-            typeof(long)
-        };
-        [NotNull] private readonly HashSet<Type> _specialTypes = new HashSet<Type>
-        {
-            typeof(IEnumerable<>)
-        };  
+        private readonly Dictionary<string, Backend> _backendMap;
 
+        #region Constructors
         public Bootstrapper() : this(new Dictionary<string, SerializationTree>())
         {
             
         }
 
-        public Bootstrapper(Dictionary<string, SerializationTree> serializationTreePool)
+        public Bootstrapper(Dictionary<string, SerializationTree> serializationTreeMap)
         {
-            _serializationTreePool = serializationTreePool;
-            _valuePoolMapping = new Dictionary<int, ValuePool>();
+            _serializationTreeMap = serializationTreeMap;
+            _valuePoolMap = new Dictionary<int, ValuePool>();
+            _backendMap = new Dictionary<string, Backend>();
+        }
+        #endregion
+
+        #region Public methods
+
+        [UsedImplicitly]
+        public void AddBackend(Backend backend)
+        {
+            _backendMap.Add(backend.BackendIdentifier, backend);
         }
 
         [UsedImplicitly]
-        public void RegisterType([NotNull] Type type)
+        public void CacheType([NotNull] Type type)
         {
             var tree = CreateSerializationTree(type);
             AddTypeToSerializationTreePool(type, tree);
         }
 
-        private void AddTypeToSerializationTreePool(Type type, SerializationTree tree)
+        [UsedImplicitly]
+        public void CacheObject([NotNull] object obj)
         {
-            if (type.AssemblyQualifiedName != null) _serializationTreePool.Add(type.AssemblyQualifiedName, tree);
-            else
+            //obtain SerializationTree
+            var tree = GetOrCreateSerializationTree(obj.GetType());
+            //create ObjectValuePool
+            var objectCache = ObjectParser.ObjectParser.Parse(tree, obj);
+            //Register ObjectPool with HashCode in the cache
+            _valuePoolMap.Add(obj.GetHashCode(), objectCache);
+        }
+
+        public void Serialize(object obj, string backendIdentifier)
+        {
+            Backend backend = _backendMap[backendIdentifier];
+            if (backend == null)
             {
-                throw new Exception(string.Format("The type \"{0}\" can not be registered since the AssemblyQualifiedName is null", type));
+                throw new Exception("The given backendIdentifier has no corresponding backend");
             }
+        }
+
+        #endregion
+
+        private SerializationTree GetOrCreateSerializationTree(Type type)
+        {
+            var tree = GetSerializationTree(type);
+            if (tree == null)
+            {
+                tree = CreateSerializationTree(type);
+                AddTypeToSerializationTreePool(type, tree);
+            }
+            return tree;
         }
 
         private SerializationTree CreateSerializationTree(Type type)
@@ -63,20 +87,13 @@ namespace Serializer
             return serializationTree;
         }
 
-        [UsedImplicitly]
-        public void RegisterObjectValuePool([NotNull] object obj)
+        private void AddTypeToSerializationTreePool(Type type, SerializationTree tree)
         {
-            //obtain SerializationTree
-            var tree = GetSerializationTree(obj.GetType());
-            if (tree == null)
+            if (type.AssemblyQualifiedName != null) _serializationTreeMap.Add(type.AssemblyQualifiedName, tree);
+            else
             {
-                tree = CreateSerializationTree(obj.GetType());
-                AddTypeToSerializationTreePool(obj.GetType(), tree);
+                throw new Exception(string.Format("The type \"{0}\" can not be registered since the AssemblyQualifiedName is null", type));
             }
-            //create ObjectValuePool
-            var pool = ObjectParser.ObjectParser.Parse(tree, obj);
-            //Register ObjectPool with HashCode in the cache
-            _valuePoolMapping.Add(obj.GetHashCode(), pool);
         }
 
         /// <summary>
@@ -88,7 +105,7 @@ namespace Serializer
         {
             SerializationTree tree = null;
             if (type.AssemblyQualifiedName != null)
-                _serializationTreePool.TryGetValue(type.AssemblyQualifiedName, out tree);
+                _serializationTreeMap.TryGetValue(type.AssemblyQualifiedName, out tree);
             return tree;
         }
     }
