@@ -1,0 +1,30 @@
+﻿<Application x:Class="BackupperNew.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:a="clr-namespace:Assisticant;assembly=Assisticant.XAML"
+             xmlns:vm="clr-namespace:BackupperNew.ViewModels"
+             xmlns:sc="clr-namespace:BackupperNew.Screens"
+             xmlns:v="clr-namespace:BackupperNew.Views"
+
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+    
+        <sc:MainScreen x:Key="Locator"/>
+        
+        <a:ViewSelector x:Key="ViewSelector"/>
+        
+        <DataTemplate DataType="{x:Type vm:MainViewModel}">
+            <v:MainView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PathDetailsViewModel}">
+            <v:PathDetailsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ControlsViewModel}">
+            <v:ControlsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ToolbarViewModel}">
+            <v:ToolbarView/>
+        </DataTemplate>
+        
+    </Application.Resources>
+</Application>

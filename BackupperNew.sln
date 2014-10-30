@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupperNew", "BackupperNew\BackupperNew.csproj", "{1CBBD07D-DDAE-43C0-9035-ABAADB1C63A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationParser", "ConfigurationParser\ConfigurationParser.csproj", "{A8E1BAA4-7F14-4356-8B84-0AF4AD576AAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationParserTest", "ConfigurationParserTest\ConfigurationParserTest.csproj", "{C477050D-4EBD-4797-B997-F580B7F71FDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serializer", "Serializer\Serializer.csproj", "{4A141D1F-DB61-4C7D-8BCB-4A90C591249D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializerTests", "SerializerTests\SerializerTests.csproj", "{57FFE6B2-3827-419B-8BD4-642BA190BEBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SerializerBackends", "SerializerBackends", "{DBA6811A-92E1-4A7C-B1CD-ACD309A80EFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlBackend", "XmlBackend\XmlBackend.csproj", "{F99339BD-97A6-430D-9F00-6B91B96C526A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CBBD07D-DDAE-43C0-9035-ABAADB1C63A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CBBD07D-DDAE-43C0-9035-ABAADB1C63A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CBBD07D-DDAE-43C0-9035-ABAADB1C63A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CBBD07D-DDAE-43C0-9035-ABAADB1C63A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8E1BAA4-7F14-4356-8B84-0AF4AD576AAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8E1BAA4-7F14-4356-8B84-0AF4AD576AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8E1BAA4-7F14-4356-8B84-0AF4AD576AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8E1BAA4-7F14-4356-8B84-0AF4AD576AAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C477050D-4EBD-4797-B997-F580B7F71FDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C477050D-4EBD-4797-B997-F580B7F71FDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C477050D-4EBD-4797-B997-F580B7F71FDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C477050D-4EBD-4797-B997-F580B7F71FDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A141D1F-DB61-4C7D-8BCB-4A90C591249D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A141D1F-DB61-4C7D-8BCB-4A90C591249D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A141D1F-DB61-4C7D-8BCB-4A90C591249D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A141D1F-DB61-4C7D-8BCB-4A90C591249D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57FFE6B2-3827-419B-8BD4-642BA190BEBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57FFE6B2-3827-419B-8BD4-642BA190BEBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57FFE6B2-3827-419B-8BD4-642BA190BEBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57FFE6B2-3827-419B-8BD4-642BA190BEBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F99339BD-97A6-430D-9F00-6B91B96C526A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F99339BD-97A6-430D-9F00-6B91B96C526A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F99339BD-97A6-430D-9F00-6B91B96C526A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F99339BD-97A6-430D-9F00-6B91B96C526A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F99339BD-97A6-430D-9F00-6B91B96C526A} = {DBA6811A-92E1-4A7C-B1CD-ACD309A80EFF}
+	EndGlobalSection
+EndGlobal

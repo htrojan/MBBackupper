@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="Serializer.TypeParser.SerializationTree">
+    <Position X="1" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAACDCAABAAABQAAIAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>TypeParser\SerializationTree.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Serializer.TypeParser.AtomicType">
+    <Position X="6.25" Y="7" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TypeParser\AtomicType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Serializer.TypeParser.SpecialType">
+    <Position X="3.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TypeParser\SpecialType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Serializer.TypeParser.TypeParser">
+    <Position X="9" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>RggAAAAAECACAAzARAAAAAAgAAAQgBAAAAAAKAAAIBA=</HashCode>
+      <FileName>TypeParser\TypeParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Serializer.Bootstrapper">
+    <Position X="12.25" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EACAQAAAAAAAAADAAAAAAACAABAAAAgAAAAAAAAQAAA=</HashCode>
+      <FileName>Bootstrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Serializer.TypeParser.SerializerAttribute">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TypeParser\SerializerAttribute.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Serializer.TypeParser.SerializationType">
+    <Position X="5.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAIAAAAgACAAAAAAQUAAIAAAAAAABAAAAAEAA=</HashCode>
+      <FileName>TypeParser\SerializationType.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Serializer.TypeParser.IAttributeContainer">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>TypeParser\IAttributeContainer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Serializer.TypeParser.ISerializationType">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAAAAQAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>TypeParser\ISerializationType.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="BackupperNew.Views.ToolbarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="24" d:DesignWidth="540"
+             d:DataContext="{Binding Toolbar, Source={StaticResource Locator}}">
+    <Grid>
+        <Menu Margin="0">
+            <MenuItem Header="File" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="7,2,8,3">
+                <MenuItem Header="Load" HorizontalAlignment="Left" Width="145" Command="{Binding SaveCommand, Mode=OneWay}"/>
+                <MenuItem Header="Save" HorizontalAlignment="Left" Width="145"/>
+            </MenuItem>
+            <MenuItem Header="SavePaths">
+                <MenuItem Header="Add" HorizontalAlignment="Left" Width="145"/>
+                <MenuItem Header="Delete" HorizontalAlignment="Left" Width="145"/>
+            </MenuItem>
+        </Menu>
+
+    </Grid>
+</UserControl>

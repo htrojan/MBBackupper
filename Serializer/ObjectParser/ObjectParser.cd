@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Serializer.ObjectParser.ObjectParser">
+    <Position X="3.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAkAAAABGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectParser\ObjectParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Serializer.TypeParser.SerializationTree">
+    <Position X="1.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAACDCAABAAABQAAIAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>TypeParser\SerializationTree.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Serializer.ObjectParser.ValuePool">
+    <Position X="6.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAIAAAQAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>ObjectParser\ValuePool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
