@@ -41,7 +41,7 @@ namespace Serializer.SerializerI
 // ReSharper disable once MemberCanBePrivate.Global
         public string BackendIdentifier { [UsedImplicitly] get; private set; }
 
-        public Assembly CreateAssembly(object destination, ValuePool values)
+        public Assembly CreateAssembly(ValuePool values)
         {
             IEnumerable<SerializableElement> elements = ApplyAttributeHandlersToValues(values);
             IEnumerable<AssemblyPart> parts = ConvertSerializableElementsToAssemblyParts(elements);

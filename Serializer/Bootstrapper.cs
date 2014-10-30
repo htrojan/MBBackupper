@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Serializer.Annotations;
 using Serializer.ObjectParser;
+using Serializer.SerializerI;
 using Serializer.TypeParser;
 
 namespace Serializer
@@ -17,35 +18,29 @@ namespace Serializer
         /// </summary>
         private readonly Dictionary<int, ValuePool> _valuePoolMap;
 
-        private readonly Dictionary<string, Backend> _backendMap;
+        private readonly Backend _operatingBackend;
 
         #region Constructors
-        public Bootstrapper() : this(new Dictionary<string, SerializationTree>())
+        public Bootstrapper(Backend operatingBackend) : this(new Dictionary<string, SerializationTree>(), operatingBackend)
         {
             
         }
 
-        public Bootstrapper(Dictionary<string, SerializationTree> serializationTreeMap)
+        public Bootstrapper(Dictionary<string, SerializationTree> serializationTreeMap, Backend operatingBackend)
         {
             _serializationTreeMap = serializationTreeMap;
             _valuePoolMap = new Dictionary<int, ValuePool>();
-            _backendMap = new Dictionary<string, Backend>();
+            _operatingBackend = operatingBackend;
         }
         #endregion
 
         #region Public methods
 
         [UsedImplicitly]
-        public void AddBackend(Backend backend)
-        {
-            _backendMap.Add(backend.BackendIdentifier, backend);
-        }
-
-        [UsedImplicitly]
         public void CacheType([NotNull] Type type)
         {
             var tree = CreateSerializationTree(type);
-            AddTypeToSerializationTreePool(type, tree);
+            AddTypeToSerializationTreeMap(type, tree);
         }
 
         [UsedImplicitly]
@@ -59,35 +54,41 @@ namespace Serializer
             _valuePoolMap.Add(obj.GetHashCode(), objectCache);
         }
 
-        public void Serialize(object obj, string backendIdentifier)
+        [UsedImplicitly]
+        public void Serialize(object obj, object destination)
         {
-            Backend backend = _backendMap[backendIdentifier];
-            if (backend == null)
-            {
-                throw new Exception("The given backendIdentifier has no corresponding backend");
-            }
+            SerializationTree tree = GetOrCreateSerializationTree(obj.GetType());
+            ValuePool pool = _valuePoolMap[obj.GetHashCode()] ?? ObjectParser.ObjectParser.Parse(tree, obj);
+            AssemblyGenerator generator = _operatingBackend.GetAssemblyGenerator();
+            Assembly asm = generator.CreateAssembly(pool);
+            asm.Serialize(destination);
         }
 
         #endregion
 
+
+
         private SerializationTree GetOrCreateSerializationTree(Type type)
         {
-            var tree = GetSerializationTree(type);
+            var tree = GetSerializationTreeOf(type);
             if (tree == null)
             {
                 tree = CreateSerializationTree(type);
-                AddTypeToSerializationTreePool(type, tree);
+                AddTypeToSerializationTreeMap(type, tree);
             }
             return tree;
         }
 
         private SerializationTree CreateSerializationTree(Type type)
         {
-            var serializationTree = TypeParser.TypeParser.ParseType(type, _atomicTypes, _specialTypes);
+            ISet<Type> atomicTypes = _operatingBackend.GetSupportedAtomicTypes();
+            ISet<Type> specialTypes = _operatingBackend.GetSupportedSpecialTypes();
+
+            var serializationTree = TypeParser.TypeParser.ParseType(type, atomicTypes, specialTypes);
             return serializationTree;
         }
 
-        private void AddTypeToSerializationTreePool(Type type, SerializationTree tree)
+        private void AddTypeToSerializationTreeMap(Type type, SerializationTree tree)
         {
             if (type.AssemblyQualifiedName != null) _serializationTreeMap.Add(type.AssemblyQualifiedName, tree);
             else
@@ -101,11 +102,9 @@ namespace Serializer
         /// </summary>
         /// <param name="type">The type the requested SerializationTree is mapped to</param>
         /// <returns></returns>
-        private SerializationTree GetSerializationTree(Type type)
+        private SerializationTree GetSerializationTreeOf(Type type)
         {
-            SerializationTree tree = null;
-            if (type.AssemblyQualifiedName != null)
-                _serializationTreeMap.TryGetValue(type.AssemblyQualifiedName, out tree);
+            SerializationTree tree = _serializationTreeMap[type.FullName];
             return tree;
         }
     }

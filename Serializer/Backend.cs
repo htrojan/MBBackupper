@@ -20,12 +20,12 @@ namespace Serializer
             throw new NotImplementedException();
         }
 
-        ISet<Type> GetSupportedAtomicTypes()
+        public ISet<Type> GetSupportedAtomicTypes()
         {
             throw new NotImplementedException();
         }
 
-        ISet<Type> GetSupportedSpecialTypes()
+        public ISet<Type> GetSupportedSpecialTypes()
         {
             throw new NotImplementedException();
         }
@@ -35,6 +35,11 @@ namespace Serializer
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public AssemblyGenerator GetAssemblyGenerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }
