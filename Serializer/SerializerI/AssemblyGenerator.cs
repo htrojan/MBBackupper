@@ -20,16 +20,15 @@ namespace Serializer.SerializerI
         private readonly Type _assemblyType;
         private List<SerializableElement> _serializableElements; 
 
-        public AssemblyGenerator(SerializationTree tree, IEnumerable<IAttributeHandler> attributeHandlers, Type serializableElementType, 
-            string backendIdentifier, Dictionary<Type, IAttributeHandler> attributeMap, Dictionary<Type, IAssemblyPartConverter> converterMap, Type assemblyType)
+        public AssemblyGenerator(AssemblyGeneratorParams assemblyGeneratorParams)
         {
-            _tree = tree;
-            _serializableElementType = serializableElementType;
-            _attributeHandlers = new List<IAttributeHandler>(attributeHandlers);
-            BackendIdentifier = backendIdentifier;
-            _attributeMap = attributeMap;
-            _converterMap = converterMap;
-            _assemblyType = assemblyType;
+            _tree = assemblyGeneratorParams.Tree;
+            _serializableElementType = assemblyGeneratorParams.SerializableElementType;
+            _attributeHandlers = new List<IAttributeHandler>(assemblyGeneratorParams.AttributeHandlers);
+            BackendIdentifier = assemblyGeneratorParams.BackendIdentifier;
+            _attributeMap = assemblyGeneratorParams.AttributeMap;
+            _converterMap = assemblyGeneratorParams.ConverterMap;
+            _assemblyType = assemblyGeneratorParams.AssemblyType;
             _serializableElements = new List<SerializableElement>();
         }
 

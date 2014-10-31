@@ -1,6 +1,7 @@
 ﻿using System.Activities.Expressions;
 using System.Collections.Generic;
 using Serializer.Annotations;
+using Serializer.Attributes;
 
 namespace Serializer.SerializerI
 {

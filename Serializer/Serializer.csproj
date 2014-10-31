@@ -52,8 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\MappingAttribute.cs" />
     <Compile Include="Backend.cs" />
     <Compile Include="SerializerI\Assembly.cs" />
+    <Compile Include="SerializerI\AssemblyGeneratorParams.cs" />
     <Compile Include="SerializerI\AssemblyPart.cs" />
     <Compile Include="SerializerI\IAssemblyPartConverter.cs" />
     <Compile Include="SerializerI\IIdentifiableBackend.cs" />
