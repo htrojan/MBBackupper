@@ -52,7 +52,7 @@ namespace Serializer
 
         public ISet<Type> GetSupportedAtomicTypes()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public ISet<Type> GetSupportedSpecialTypes()
