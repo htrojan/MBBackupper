@@ -11,7 +11,7 @@ namespace Serializer.SerializerI
         protected List<AssemblyPart> _parts;
 
         protected Assembly(List<AssemblyPart> parts)
-        {
+        { 
             _parts = parts;
         }
 
@@ -19,7 +19,7 @@ namespace Serializer.SerializerI
         {
             get { return _parts; }
             set { _parts = new List<AssemblyPart>(value); }
-        }
+        } 
 
         public void AddPart(AssemblyPart part)
         {

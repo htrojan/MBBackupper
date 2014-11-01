@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Attributes\MappingAttribute.cs" />
     <Compile Include="Backend.cs" />
+    <Compile Include="ISpecialAttributeHandler.cs" />
     <Compile Include="SerializerI\Assembly.cs" />
     <Compile Include="SerializerI\AssemblyGeneratorParams.cs" />
     <Compile Include="SerializerI\AssemblyPart.cs" />

@@ -16,5 +16,10 @@ namespace Serializer.Attributes
         {
             _targetType = targetType;
         }
+
+        public Type GetTargetingType()
+        {
+            return _targetType;
+        }
     }
 }

@@ -18,19 +18,19 @@ namespace Serializer
         /// </summary>
         private readonly Dictionary<int, ValuePool> _valuePoolMap;
 
-        private readonly Backend _operatingBackend;
-
+        private readonly Backend _backend;
+         
         #region Constructors
         public Bootstrapper(Backend operatingBackend) : this(new Dictionary<string, SerializationTree>(), operatingBackend)
         {
             
         }
 
-        public Bootstrapper(Dictionary<string, SerializationTree> serializationTreeMap, Backend operatingBackend)
+        public Bootstrapper(Dictionary<string, SerializationTree> serializationTreeMap, Backend backend)
         {
             _serializationTreeMap = serializationTreeMap;
             _valuePoolMap = new Dictionary<int, ValuePool>();
-            _operatingBackend = operatingBackend;
+            _backend = backend;
         }
         #endregion
 
@@ -59,7 +59,9 @@ namespace Serializer
         {
             SerializationTree tree = GetOrCreateSerializationTree(obj.GetType());
             ValuePool pool = _valuePoolMap[obj.GetHashCode()] ?? ObjectParser.ObjectParser.Parse(tree, obj);
-            AssemblyGenerator generator = _operatingBackend.GetAssemblyGenerator();
+            AssemblyGeneratorParams pParams = new AssemblyGeneratorParams(tree, _backend.BackendIdentifier,
+                _backend.GetAttributeHandlerMap(), _backend.GetAssemblyPartConverterMap(), _backend.GetAssemblyType());
+            AssemblyGenerator generator = _backend.GetAssemblyGeneratorInstance(pParams);
             Assembly asm = generator.CreateAssembly(pool);
             asm.Serialize(destination);
         }
@@ -81,8 +83,8 @@ namespace Serializer
 
         private SerializationTree CreateSerializationTree(Type type)
         {
-            ISet<Type> atomicTypes = _operatingBackend.GetSupportedAtomicTypes();
-            ISet<Type> specialTypes = _operatingBackend.GetSupportedSpecialTypes();
+            ISet<Type> atomicTypes = _backend.GetSupportedAtomicTypes();
+            ISet<Type> specialTypes = _backend.GetSupportedSpecialTypes();
 
             var serializationTree = TypeParser.TypeParser.ParseType(type, atomicTypes, specialTypes);
             return serializationTree;

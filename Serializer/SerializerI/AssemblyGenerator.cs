@@ -9,27 +9,20 @@ using Serializer.ObjectParser;
 
 namespace Serializer.SerializerI
 {
-    [UsedImplicitly]
-    public class AssemblyGenerator : IIdentifiableBackend
-    {
+    public abstract class AssemblyGenerator : IIdentifiableBackend
+    { 
         private readonly SerializationTree _tree;
-        private readonly List<IAttributeHandler> _attributeHandlers;
         private readonly Dictionary<Type, IAttributeHandler> _attributeMap;
         private readonly Dictionary<Type, IAssemblyPartConverter> _converterMap;
-        private readonly Type _serializableElementType;
         private readonly Type _assemblyType;
-        private List<SerializableElement> _serializableElements; 
 
-        public AssemblyGenerator(AssemblyGeneratorParams assemblyGeneratorParams)
+        protected AssemblyGenerator(AssemblyGeneratorParams assemblyGeneratorParams)
         {
             _tree = assemblyGeneratorParams.Tree;
-            _serializableElementType = assemblyGeneratorParams.SerializableElementType;
-            _attributeHandlers = new List<IAttributeHandler>(assemblyGeneratorParams.AttributeHandlers);
             BackendIdentifier = assemblyGeneratorParams.BackendIdentifier;
             _attributeMap = assemblyGeneratorParams.AttributeMap;
             _converterMap = assemblyGeneratorParams.ConverterMap;
             _assemblyType = assemblyGeneratorParams.AssemblyType;
-            _serializableElements = new List<SerializableElement>();
         }
 
         public SerializationTree SerializationTree
@@ -42,42 +35,26 @@ namespace Serializer.SerializerI
 
         public Assembly CreateAssembly(ValuePool values)
         {
-            IEnumerable<SerializableElement> elements = ApplyAttributeHandlersToValues(values);
-            IEnumerable<AssemblyPart> parts = ConvertSerializableElementsToAssemblyParts(elements);
+            IEnumerable<AssemblyPart> parts = ApplyAttributeHandlersToValues(values);
             return InstantiateAssembly(parts);
         }
 
-        private IEnumerable<AssemblyPart> ConvertSerializableElementsToAssemblyParts(IEnumerable<SerializableElement> elements)
+        private IEnumerable<AssemblyPart> ApplyAttributeHandlersToValues(ValuePool values)
         {
-            return elements.Select(ConvertSerializableElementToAssemblyPart).ToList();
-        }
-
-        private AssemblyPart ConvertSerializableElementToAssemblyPart(SerializableElement element)
-        {
-            IAssemblyPartConverter converter = _converterMap[element.GetType()];
-            if (converter == null)
-            {
-                throw new Exception(string.Format("No converter for the Type: {0} has been found", element.GetType().Name));
-            }
-            return converter.Convert(element);
-        }
-
-        private IEnumerable<SerializableElement> ApplyAttributeHandlersToValues(ValuePool values)
-        {
-            List<SerializableElement> elements = new List<SerializableElement>();
+            List<AssemblyPart> elements = new List<AssemblyPart>();
             foreach (var atomicType in _tree.AtomicTypes)
             {
                 object value = values.GetValue(atomicType.Name);
-                var serializableElement = InstantiateElement(value);
+                var assemblyPart = _converterMap[value.GetType()].Convert(value);
                 var attributes = atomicType.Attributes;
-                ApplyAttributeHandlersToValue(serializableElement, attributes);
-                elements.Add(serializableElement);
+                ApplyAttributeHandlersToValue(assemblyPart, attributes);
+                elements.Add(assemblyPart);
             }
 
             return elements;
         }
 
-        private void ApplyAttributeHandlersToValue(SerializableElement element, IEnumerable<SerializerAttribute> attributes)
+        private void ApplyAttributeHandlersToValue(AssemblyPart element, IEnumerable<SerializerAttribute> attributes)
         {
             //Select only attributes with the same BackendItentifier
             var matchingAttributes = from attribute in attributes
@@ -94,19 +71,6 @@ namespace Serializer.SerializerI
             }
         }
 
-        private SerializableElement InstantiateElement(object value)
-        {
-            var ctor = _serializableElementType.GetConstructor(new[] {typeof (object)});
-            if (ctor != null)
-            {
-                var element = ctor.Invoke(new[] {value});
-                return (SerializableElement) element;
-            }
-            else
-            {
-                throw new Exception("An Error occured while trying to instantiate a SerializableElement");
-            }
-        }
 
         private Assembly InstantiateAssembly(IEnumerable<AssemblyPart> parts )
         {
