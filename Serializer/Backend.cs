@@ -68,23 +68,24 @@ namespace Serializer
 
         public ISet<Type> GetSupportedAtomicTypes()
         {
-            ISet<Type> supportedTypes = new HashSet<Type>();
-            foreach (Type handler in _attributeHandlers)
-            {
-                //allowed as only one mappingAttribute per class is allowed
-                MappingAttribute mappingAttribute = (MappingAttribute) Attribute.GetCustomAttribute(handler, typeof(MappingAttribute));
-                supportedTypes.Add(mappingAttribute.GetTargetingType());
-            }
+            var supportedTypes = GetSupportedTypes(_attributeHandlers);
             return supportedTypes;
         }
 
         public ISet<Type> GetSupportedSpecialTypes()
         {
+            var specialTypes = GetSupportedTypes(_specialAttributeHandlers);
+            return specialTypes;
+        }
+
+        private ISet<Type> GetSupportedTypes(IEnumerable<Type> types )
+        {
             ISet<Type> supportedTypes = new HashSet<Type>();
-            foreach (Type handler in _specialAttributeHandlers)
+            foreach (Type handler in types)
             {
                 //allowed as only one mappingAttribute per class is allowed
-                MappingAttribute mappingAttribute = (MappingAttribute) Attribute.GetCustomAttribute(handler, typeof(MappingAttribute));
+                MappingAttribute mappingAttribute =
+                    (MappingAttribute) Attribute.GetCustomAttribute(handler, typeof (MappingAttribute));
                 supportedTypes.Add(mappingAttribute.GetTargetingType());
             }
             return supportedTypes;
@@ -92,31 +93,32 @@ namespace Serializer
 
         public Dictionary<Type, IAttributeHandler> GetAttributeHandlerMap()
         {
-            Dictionary<Type, IAttributeHandler> handlers = new Dictionary<Type, IAttributeHandler>();
-            foreach (var handler in _attributeHandlers)
-            {
-                MappingAttribute attribute =(MappingAttribute) Attribute.GetCustomAttribute(handler, typeof (MappingAttribute));
-                Type targetingType = attribute.GetTargetingType();
-                var ctor = handler.GetConstructor(new Type[0]);
-                IAttributeHandler handlerObj =(IAttributeHandler) ctor.Invoke(new object[0]);
-                handlers.Add(targetingType, handlerObj);
-            }
+            Dictionary<Type, IAttributeHandler> handlers =
+                ExtractTargetingTypeInstanceDictionary<IAttributeHandler>(_attributeHandlers);
             return handlers;
         }
 
         public Dictionary<Type, IAssemblyPartConverter> GetAssemblyPartConverterMap()
         {
-            Dictionary<Type, IAssemblyPartConverter> converters = new Dictionary<Type, IAssemblyPartConverter>();
-            foreach (var converter in _assemblyPartConverters)
-            {
-                MappingAttribute attribute =(MappingAttribute) Attribute.GetCustomAttribute(converter, typeof (MappingAttribute));
-                Type targetingType = attribute.GetTargetingType();
-                var ctor = converter.GetConstructor(new Type[0]);
-                IAssemblyPartConverter handlerObj =(IAssemblyPartConverter) ctor.Invoke(new object[0]);
-                converters.Add(targetingType, handlerObj);
-            }
+            Dictionary<Type, IAssemblyPartConverter> converters =
+                ExtractTargetingTypeInstanceDictionary<IAssemblyPartConverter>(_assemblyPartConverters);
             return converters;
-        } 
+        }
+
+        private Dictionary<Type, T> ExtractTargetingTypeInstanceDictionary<T>(IEnumerable<Type> instanceTypes )
+        {
+            Dictionary<Type, T> instanceMap = new Dictionary<Type, T>();
+            foreach (var instanceType in instanceTypes)
+            {
+                MappingAttribute attribute = (MappingAttribute)Attribute.GetCustomAttribute(instanceType, typeof(MappingAttribute));
+                Type targetingType = attribute.GetTargetingType();
+                var ctor = instanceType.GetConstructor(new Type[0]);
+                T instanceTypeObject = (T) ctor.Invoke(new object[0]);
+                instanceMap.Add(targetingType, instanceTypeObject);
+            }
+            return instanceMap;
+        }
+
 
         public string BackendIdentifier {
             get
