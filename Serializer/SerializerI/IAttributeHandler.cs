@@ -7,7 +7,7 @@ namespace Serializer.SerializerI
     public interface IAttributeHandler : IIdentifiableBackend
     {
         void Execute(ref AssemblyPart element, SerializerAttribute attribute);
-        bool CanExecute(SerializerAttribute attribute);
+        bool CanExecute(SerializerAttribute attribute);  
     }
 }
- 
+   
