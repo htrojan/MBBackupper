@@ -2,7 +2,7 @@
 	<s:Boolean x:Key="/Default/CodeStyle/LiveTemplatesUseVar/PreferVar/@EntryValue">False</s:Boolean>
 	
 	<s:Boolean x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=021B738B73F343628CBC9916F1B0AA5E/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=021B738B73F343628CBC9916F1B0AA5E/SessionName/@EntryValue">ParserTests</s:String>
+	<s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=021B738B73F343628CBC9916F1B0AA5E/SessionName/@EntryValue">Session</s:String>
 	<s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=021B738B73F343628CBC9916F1B0AA5E/SnapshotLocation/@EntryValue">E:\Cache\AppData\AppData\Local\Temp\ssmHyburen.tmp</s:String>
 	<s:Boolean x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=6562592EF15045FCA83788B5BEBF81B5/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=6562592EF15045FCA83788B5BEBF81B5/SessionName/@EntryValue">All tests from ConfigurationParserTest</s:String>

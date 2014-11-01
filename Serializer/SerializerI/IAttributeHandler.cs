@@ -8,6 +8,6 @@ namespace Serializer.SerializerI
     {
         void Execute(ref AssemblyPart element, SerializerAttribute attribute);
         bool CanExecute(SerializerAttribute attribute);  
-    }
+    } 
 }
    
