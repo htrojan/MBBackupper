@@ -11,13 +11,28 @@ namespace Serializer
     {
         public static BackendIdentifierAttribute GetBackendIdentifierAttribute(Type type)
         {
-            BackendIdentifierAttribute backendIdentifier = (BackendIdentifierAttribute)
-                   Attribute.GetCustomAttribute(type, typeof(BackendIdentifierAttribute));
-            if (backendIdentifier == null)
+            return GetAttribute<BackendIdentifierAttribute>(type) as BackendIdentifierAttribute;
+        }
+
+        public static MappingAttribute GetMappingAttribute(Type type)
+        {
+            //allowed as only one mappingAttribute per class is allowed
+            return GetAttribute<MappingAttribute> (type) as MappingAttribute;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T">Always has to be of type Attribute</typeparam>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private static Attribute GetAttribute<T>(Type type)
+        {
+            Attribute attribute = Attribute.GetCustomAttribute(type, typeof (T));
+            if (attribute == null)
             {
-                throw new Exception(string.Format("The Type {0} has no attached backendIdentifier attribute", type.FullName));
+                throw new Exception(string.Format("The type {0} does not contain the attribute {1}", type.FullName, T));
             }
-            return backendIdentifier;
+            return attribute;
         }
     }
 }

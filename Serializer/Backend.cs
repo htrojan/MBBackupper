@@ -16,26 +16,26 @@ namespace Serializer
     {
         private readonly Type _assemblyType;
         private readonly Type _assemblyGeneratorType;
-        private readonly IEnumerable<Type> _attributeHandlers;
-        private readonly IEnumerable<Type> _specialAttributeHandlers; 
-        private readonly IEnumerable<Type> _assemblyPartConverters;
+        private readonly List<Type> _attributeHandlers;
+        private readonly List<Type> _specialAttributeHandlers; 
+        private readonly List<Type> _assemblyPartConverters;
 
         private Backend(IEnumerable<Type> attributeHandlers, IEnumerable<Type> assemblyPartConverters, Type assemblyType, Type assemblyGeneratorType, IEnumerable<Type> specialAttributeHandlers)
         {
             _assemblyType = assemblyType;
             _assemblyGeneratorType = assemblyGeneratorType;
-            _specialAttributeHandlers = specialAttributeHandlers;
-            _attributeHandlers = attributeHandlers;
-            _assemblyPartConverters = assemblyPartConverters;
+            _specialAttributeHandlers = new List<Type>(specialAttributeHandlers);
+            _attributeHandlers = new List<Type>(attributeHandlers);
+            _assemblyPartConverters = new List<Type>(assemblyPartConverters);
         }
 
         public static Backend LoadBackend(Assembly assembly)
         {
             Type assemblyType = null;
             Type assemblyGeneratorType = null;
-            List<Type> attributeHandlers = new List<Type>();
-            List<Type> specialAttributeHandlers = new List<Type>();
-            List<Type> assemblyPartConverters = new List<Type>();
+            var attributeHandlers = new List<Type>();
+            var specialAttributeHandlers = new List<Type>();
+            var assemblyPartConverters = new List<Type>();
 
             foreach (var type in assembly.DefinedTypes)
             {
@@ -75,24 +75,21 @@ namespace Serializer
 
         public ISet<Type> GetSupportedAtomicTypes()
         {
-            var supportedTypes = GetSupportedTypes(_attributeHandlers);
+            var supportedTypes = GetSupportedTypesWithin(_attributeHandlers);
             return supportedTypes;
         }
 
         public ISet<Type> GetSupportedSpecialTypes()
         {
-            var specialTypes = GetSupportedTypes(_specialAttributeHandlers);
+            var specialTypes = GetSupportedTypesWithin(_specialAttributeHandlers);
             return specialTypes;
         }
 
-        private ISet<Type> GetSupportedTypes(IEnumerable<Type> types )
+        private ISet<Type> GetSupportedTypesWithin(IEnumerable<Type> types )
         {
             ISet<Type> supportedTypes = new HashSet<Type>();
-            foreach (Type handler in types)
+            foreach (var mappingAttribute in types.Select(AttributeHelper.GetMappingAttribute))
             {
-                //allowed as only one mappingAttribute per class is allowed
-                var mappingAttribute =
-                    (MappingAttribute) Attribute.GetCustomAttribute(handler, typeof (MappingAttribute));
                 supportedTypes.Add(mappingAttribute.GetTargetingType());
             }
             return supportedTypes;
@@ -111,7 +108,7 @@ namespace Serializer
                 ExtractTargetingTypeInstanceDictionary<IAssemblyPartConverter>(_assemblyPartConverters);
             return converters;
         }
-
+         
         private Dictionary<Type, T> ExtractTargetingTypeInstanceDictionary<T>(IEnumerable<Type> instanceTypes )
         {
             Dictionary<Type, T> instanceMap = new Dictionary<Type, T>();
@@ -120,6 +117,7 @@ namespace Serializer
                 MappingAttribute attribute = (MappingAttribute)Attribute.GetCustomAttribute(instanceType, typeof(MappingAttribute));
                 Type targetingType = attribute.GetTargetingType();
                 var ctor = instanceType.GetConstructor(new Type[0]);
+                Debug.Assert(ctor != null, "Default constructor of targetingType != null");
                 T instanceTypeObject = (T) ctor.Invoke(new object[0]);
                 instanceMap.Add(targetingType, instanceTypeObject);
             }
@@ -134,7 +132,7 @@ namespace Serializer
                     AttributeHelper.GetBackendIdentifierAttribute(_assemblyType);
 
                 return backendIdentifier.GetBackendIdentifier();
-            }
+            } 
         }
 
         public AssemblyGenerator GetAssemblyGeneratorInstance(AssemblyGeneratorParams generatorParams)
