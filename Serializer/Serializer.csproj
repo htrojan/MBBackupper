@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttributeHelper.cs" />
     <Compile Include="Attributes\BackendIdentifierAttribute.cs" />
     <Compile Include="Attributes\MappingAttribute.cs" />
     <Compile Include="Backend.cs" />

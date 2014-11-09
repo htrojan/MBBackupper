@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Reflection;
 using Serializer.Annotations;
 using Serializer.Attributes;
 using Serializer.SerializerI;
@@ -38,11 +39,11 @@ namespace Serializer
 
             foreach (var type in assembly.DefinedTypes)
             {
-                if (type.ImplementedInterfaces.Contains(typeof(IAttributeHandler)))  
+                if (ImplementsInterface(type, typeof(IAttributeHandler)))  
                 {
                     attributeHandlers.Add(type);
                 }
-                else if (type.ImplementedInterfaces.Contains(typeof(IAssemblyPartConverter)))
+                else if (ImplementsInterface(type, typeof(IAssemblyPartConverter)))
                 {
                     assemblyPartConverters.Add(type);
                 }
@@ -54,7 +55,7 @@ namespace Serializer
                 {
                     assemblyGeneratorType = type;
                 }
-                else if (type.ImplementedInterfaces.Contains(typeof(ISpecialAttributeHandler))) 
+                else if (ImplementsInterface(type, typeof(ISpecialAttributeHandler))) 
                 {
                     specialAttributeHandlers.Add(type);
                 }
@@ -63,8 +64,13 @@ namespace Serializer
             {
                 throw new Exception(string.Format("The given Backend-Assembly: {0} has either no AssemblyType or no AssemblyGeneratorType", assembly.FullName));
             }
-            Backend backend = new Backend(attributeHandlers, assemblyPartConverters, assemblyType, assemblyGeneratorType, specialAttributeHandlers);
+            var backend = new Backend(attributeHandlers, assemblyPartConverters, assemblyType, assemblyGeneratorType, specialAttributeHandlers);
             return backend;
+        }
+
+        private static bool ImplementsInterface(Type type, Type interfaceType)
+        {
+            return type.GetTypeInfo().ImplementedInterfaces.Contains(interfaceType);
         }
 
         public ISet<Type> GetSupportedAtomicTypes()
@@ -85,7 +91,7 @@ namespace Serializer
             foreach (Type handler in types)
             {
                 //allowed as only one mappingAttribute per class is allowed
-                MappingAttribute mappingAttribute =
+                var mappingAttribute =
                     (MappingAttribute) Attribute.GetCustomAttribute(handler, typeof (MappingAttribute));
                 supportedTypes.Add(mappingAttribute.GetTargetingType());
             }
@@ -124,12 +130,9 @@ namespace Serializer
             get
             {
                 //throw new NotImplementedException("All Methods for obtaining BackendIdentifiers are obsolete and should be removed");
-                BackendIdentifierAttribute backendIdentifier = (BackendIdentifierAttribute) 
-                    Attribute.GetCustomAttribute(_assemblyType, typeof (BackendIdentifierAttribute));
-                if (backendIdentifier == null)
-                {
-                    throw new Exception("The Assembly {0} in the backend ");
-                }
+                var backendIdentifier =
+                    AttributeHelper.GetBackendIdentifierAttribute(_assemblyType);
+
                 return backendIdentifier.GetBackendIdentifier();
             }
         }
