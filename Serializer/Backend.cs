@@ -13,11 +13,12 @@ namespace Serializer
     [UsedImplicitly]
     public class Backend : IIdentifiableBackend
     {
-        private Type _assemblyType;
-        private Type _assemblyGeneratorType;
-        private IEnumerable<Type> _attributeHandlers;
-        private IEnumerable<Type> _specialAttributeHandlers; 
-        private IEnumerable<Type> _assemblyPartConverters;
+        private readonly Type _assemblyType;
+        private readonly Type _assemblyGeneratorType;
+        private readonly IEnumerable<Type> _attributeHandlers;
+        private readonly IEnumerable<Type> _specialAttributeHandlers; 
+        private readonly IEnumerable<Type> _assemblyPartConverters;
+
         private Backend(IEnumerable<Type> attributeHandlers, IEnumerable<Type> assemblyPartConverters, Type assemblyType, Type assemblyGeneratorType, IEnumerable<Type> specialAttributeHandlers)
         {
             _assemblyType = assemblyType;
@@ -119,11 +120,17 @@ namespace Serializer
             return instanceMap;
         }
 
-
         public string BackendIdentifier {
             get
             {
-                throw new NotImplementedException("All Methods for obtaining BackendIdentifiers are obsolete and should be removed");
+                //throw new NotImplementedException("All Methods for obtaining BackendIdentifiers are obsolete and should be removed");
+                BackendIdentifierAttribute backendIdentifier = (BackendIdentifierAttribute) 
+                    Attribute.GetCustomAttribute(_assemblyType, typeof (BackendIdentifierAttribute));
+                if (backendIdentifier == null)
+                {
+                    throw new Exception("The Assembly {0} in the backend ");
+                }
+                return backendIdentifier.GetBackendIdentifier();
             }
         }
 
