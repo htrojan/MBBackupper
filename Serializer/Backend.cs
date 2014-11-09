@@ -126,7 +126,7 @@ namespace Serializer
 
         public string BackendIdentifier {
             get
-            {
+            { 
                 //throw new NotImplementedException("All Methods for obtaining BackendIdentifiers are obsolete and should be removed");
                 var backendIdentifier =
                     AttributeHelper.GetBackendIdentifierAttribute(_assemblyType);
