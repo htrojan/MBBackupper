@@ -30,7 +30,7 @@ namespace Serializer
             Attribute attribute = Attribute.GetCustomAttribute(type, typeof (T));
             if (attribute == null)
             {
-                throw new Exception(string.Format("The type {0} does not contain the attribute {1}", type.FullName, T));
+                throw new Exception(string.Format("The type {0} does not contain the attribute {1}", type.FullName, typeof(T).FullName));
             }
             return attribute;
         }

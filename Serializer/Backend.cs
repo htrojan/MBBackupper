@@ -98,30 +98,47 @@ namespace Serializer
         public Dictionary<Type, IAttributeHandler> GetAttributeHandlerMap()
         {
             Dictionary<Type, IAttributeHandler> handlers =
-                ExtractTargetingTypeInstanceDictionary<IAttributeHandler>(_attributeHandlers);
+                CreateTypeInstanceDictionaryFrom<IAttributeHandler>(_attributeHandlers);
             return handlers;
         }
 
         public Dictionary<Type, IAssemblyPartConverter> GetAssemblyPartConverterMap()
         {
             Dictionary<Type, IAssemblyPartConverter> converters =
-                ExtractTargetingTypeInstanceDictionary<IAssemblyPartConverter>(_assemblyPartConverters);
+                CreateTypeInstanceDictionaryFrom<IAssemblyPartConverter>(_assemblyPartConverters);
             return converters;
         }
          
-        private Dictionary<Type, T> ExtractTargetingTypeInstanceDictionary<T>(IEnumerable<Type> instanceTypes )
+        private Dictionary<Type, T> CreateTypeInstanceDictionaryFrom<T>(IEnumerable<Type> instanceTypes )
         {
             Dictionary<Type, T> instanceMap = new Dictionary<Type, T>();
             foreach (var instanceType in instanceTypes)
             {
-                MappingAttribute attribute = (MappingAttribute)Attribute.GetCustomAttribute(instanceType, typeof(MappingAttribute));
-                Type targetingType = attribute.GetTargetingType();
+                var mappingAttribute = (MappingAttribute)Attribute.GetCustomAttribute(instanceType, typeof(MappingAttribute));
+                var targetingType = mappingAttribute.GetTargetingType();
                 var ctor = instanceType.GetConstructor(new Type[0]);
                 Debug.Assert(ctor != null, "Default constructor of targetingType != null");
                 T instanceTypeObject = (T) ctor.Invoke(new object[0]);
+                InjectBackendIdentifier(instanceTypeObject);
                 instanceMap.Add(targetingType, instanceTypeObject);
             }
             return instanceMap;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj">An object that implements IIdentifiableBackend and has a BackendIdentifier attrbitute attached to it</param>
+        private void InjectBackendIdentifier(object obj)
+        {
+            var objType = obj.GetType();
+            if (!ImplementsInterface(objType, typeof (IIdentifiableBackend)))
+            {
+                throw new Exception(string.Format("The given Type ({0}) does not implement the IIdentifiableBackendInterface", obj.GetType().FullName));
+            }
+            //There is only one property with that name
+            var backendIdentifier = objType.GetProperties().First(info => info.Name == "BackendIdentifier");
+            backendIdentifier.SetValue(obj, AttributeHelper.GetBackendIdentifierAttribute(objType).GetBackendIdentifier());
         }
 
         public string BackendIdentifier {
