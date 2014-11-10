@@ -84,9 +84,8 @@ namespace Serializer
         private SerializationTree CreateSerializationTree(Type type)
         {
             ISet<Type> atomicTypes = _backend.GetSupportedAtomicTypes();
-            ISet<Type> specialTypes = _backend.GetSupportedSpecialTypes();
 
-            var serializationTree = TypeParser.TypeParser.ParseType(type, atomicTypes, specialTypes);
+            var serializationTree = TypeParser.TypeParser.ParseType(type, atomicTypes);
             return serializationTree;
         }
 

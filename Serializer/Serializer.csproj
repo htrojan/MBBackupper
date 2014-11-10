@@ -56,7 +56,6 @@
     <Compile Include="Attributes\BackendIdentifierAttribute.cs" />
     <Compile Include="Attributes\MappingAttribute.cs" />
     <Compile Include="Backend.cs" />
-    <Compile Include="SerializerI\ISpecialAttributeHandler.cs" />
     <Compile Include="SerializerI\Assembly.cs" />
     <Compile Include="SerializerI\AssemblyGeneratorParams.cs" />
     <Compile Include="SerializerI\AssemblyPart.cs" />
@@ -78,7 +77,6 @@
     <Compile Include="TypeParser\SerializationTree.cs" />
     <Compile Include="TypeParser\SerializationType.cs" />
     <Compile Include="TypeParser\SerializerAttribute.cs" />
-    <Compile Include="TypeParser\SpecialType.cs" />
     <Compile Include="ObjectParser\ValuePool.cs" />
   </ItemGroup>
   <ItemGroup>

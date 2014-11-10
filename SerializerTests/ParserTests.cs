@@ -24,15 +24,11 @@ namespace Serializer.Tests
             typeof(byte)
         };
 
-        [NotNull] private readonly HashSet<Type> _specialTypes = new HashSet<Type>
-        {
-
-        };
 
         [TestMethod()]
         public void ParseTypeTest()
         {
-            var tree = TypeParser.TypeParser.ParseType(typeof(SerializableClass), _atomicTypes, _specialTypes);
+            var tree = TypeParser.TypeParser.ParseType(typeof(SerializableClass), _atomicTypes);
             Assert.AreEqual<int>(4, tree.AtomicTypes.Count());
             Console.WriteLine("expected: {0}", 4);
             Console.WriteLine("actual: {0}", tree.AtomicTypes.Count());

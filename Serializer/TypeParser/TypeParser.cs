@@ -11,20 +11,18 @@ namespace Serializer.TypeParser
         private readonly Type _type;
         private readonly SerializationTree _tree;
         private readonly ISet<Type> _atomicTypes;
-        private readonly ISet<Type> _specialTypes;
 
-        private TypeParser(Type type, ISet<Type> atomicTypes, ISet<Type> specialTypes)
+        private TypeParser(Type type, ISet<Type> atomicTypes)
         {
             this._type = type;
             this._atomicTypes = atomicTypes;
-            this._specialTypes = specialTypes;
 
             this._tree = new SerializationTree();
         }
 
-        public static SerializationTree ParseType(Type type, ISet<Type> atomicTypes, ISet<Type> specialTypes)
+        public static SerializationTree ParseType(Type type, ISet<Type> atomicTypes)
         {
-            TypeParser typeParser = new TypeParser(type, atomicTypes, specialTypes);
+            TypeParser typeParser = new TypeParser(type, atomicTypes);
             return typeParser.GenerateTree();
         }
 
@@ -118,10 +116,6 @@ namespace Serializer.TypeParser
             {
                 ParseAtomicType(field);
             }
-            else if(_specialTypes.Contains(field.FieldType))
-            {
-                ParseSpecialType(field);
-            }
         }
 
         private void ParseProperty(PropertyInfo property)
@@ -129,10 +123,6 @@ namespace Serializer.TypeParser
             if (_atomicTypes.Contains(property.PropertyType))
             {
                 ParseAtomicType(property);
-            }
-            else if (_specialTypes.Contains(property.PropertyType))
-            {
-                ParseSpecialType(property);
             }
         }
 
@@ -150,22 +140,6 @@ namespace Serializer.TypeParser
 
             AtomicType type = new AtomicType(property) { Attributes = attributes };
             _tree.AddAtomicType(type);
-        }
-
-        private void ParseSpecialType(PropertyInfo property)
-        {
-            var attributes = GetFilteredAttributes(property);
-
-            SpecialType type = new SpecialType(property) { Attributes = attributes };
-            _tree.AddSpecialType(type);
-        }
-
-        private void ParseSpecialType(FieldInfo field)
-        {
-            var attributes = GetFilteredAttributes(field);
-
-            SpecialType type = new SpecialType(field) {Attributes = attributes};
-            _tree.AddSpecialType(type);
         }
 
         private IEnumerable<SerializerAttribute> GetFilteredAttributes(FieldInfo field)

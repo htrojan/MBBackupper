@@ -29,11 +29,6 @@ namespace Serializer.ObjectParser
                 ParseField(atomicType);
             }
 
-            foreach (var specialType in _tree.SpecialTypes)
-            {
-                ParseField(specialType);
-            }
-
             return _pool;
         }
 

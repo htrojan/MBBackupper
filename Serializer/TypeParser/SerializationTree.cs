@@ -8,13 +8,11 @@ namespace Serializer.TypeParser
     {
         private List<SerializerAttribute> _attributes;
         private List<AtomicType> _atomicTypes;
-        private List<SpecialType> _specialTypes;
 
         public SerializationTree()
         {
             _atomicTypes = new List<AtomicType>();
             _attributes = new List<SerializerAttribute>();
-            _specialTypes = new List<SpecialType>();
         }
 
         public IEnumerable<SerializerAttribute> Attributes
@@ -41,19 +39,6 @@ namespace Serializer.TypeParser
             }
         }
 
-        public IEnumerable<SpecialType> SpecialTypes
-        {
-            get
-            {
-                return _specialTypes;
-            }
-            [UsedImplicitly] set
-            {
-                _specialTypes = new List<SpecialType>(value);
-            }
-        }
-
-
         public void AddAttribute(SerializerAttribute attribute)
         {
             _attributes.Add(attribute);
@@ -62,11 +47,6 @@ namespace Serializer.TypeParser
         public void AddAttributes(IEnumerable<SerializerAttribute> attributes)
         {
             _attributes.AddRange(attributes);
-        }
-
-        public void AddSpecialType(SpecialType type)
-        {
-            _specialTypes.Add(type);
         }
 
         public void AddAtomicType(AtomicType type)

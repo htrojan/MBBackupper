@@ -17,14 +17,12 @@ namespace Serializer
         private readonly Type _assemblyType;
         private readonly Type _assemblyGeneratorType;
         private readonly List<Type> _attributeHandlers;
-        private readonly List<Type> _specialAttributeHandlers; 
         private readonly List<Type> _assemblyPartConverters;
 
-        private Backend(IEnumerable<Type> attributeHandlers, IEnumerable<Type> assemblyPartConverters, Type assemblyType, Type assemblyGeneratorType, IEnumerable<Type> specialAttributeHandlers)
+        private Backend(IEnumerable<Type> attributeHandlers, IEnumerable<Type> assemblyPartConverters, Type assemblyType, Type assemblyGeneratorType)
         {
             _assemblyType = assemblyType;
             _assemblyGeneratorType = assemblyGeneratorType;
-            _specialAttributeHandlers = new List<Type>(specialAttributeHandlers);
             _attributeHandlers = new List<Type>(attributeHandlers);
             _assemblyPartConverters = new List<Type>(assemblyPartConverters);
         }
@@ -55,34 +53,24 @@ namespace Serializer
                 {
                     assemblyGeneratorType = type;
                 }
-                else if (ImplementsInterface(type, typeof(ISpecialAttributeHandler))) 
-                {
-                    specialAttributeHandlers.Add(type);
-                }
             }
             if (assemblyType == null || assemblyGeneratorType == null)
             {
                 throw new Exception(string.Format("The given Backend-Assembly: {0} has either no AssemblyType or no AssemblyGeneratorType", assembly.FullName));
             }
-            var backend = new Backend(attributeHandlers, assemblyPartConverters, assemblyType, assemblyGeneratorType, specialAttributeHandlers);
+            var backend = new Backend(attributeHandlers, assemblyPartConverters, assemblyType, assemblyGeneratorType);
             return backend;
         }
 
         private static bool ImplementsInterface(Type type, Type interfaceType)
         {
-            return type.GetTypeInfo().ImplementedInterfaces.Contains(interfaceType);
+            return type.GetTypeInfo().ImplementedInterfaces.Contains(interfaceType);    
         }
 
         public ISet<Type> GetSupportedAtomicTypes()
         {
             var supportedTypes = GetSupportedTypesWithin(_assemblyPartConverters);
             return supportedTypes;
-        }
-
-        public ISet<Type> GetSupportedSpecialTypes()
-        {
-            var specialTypes = GetSupportedTypesWithin(_specialAttributeHandlers);
-            return specialTypes;
         }
 
         private ISet<Type> GetSupportedTypesWithin(IEnumerable<Type> types )
@@ -174,11 +162,6 @@ namespace Serializer
         public IEnumerable<Type> GetAttributeHandlers()
         {
             return _attributeHandlers;
-        }
-
-        public IEnumerable<Type> GetSpecialAttributeHandlers()
-        {
-            return _specialAttributeHandlers;
         }
 
         public IEnumerable<Type> GetAssemblyPartConverters()
