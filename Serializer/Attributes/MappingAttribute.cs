@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Serializer.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class MappingAttribute : Attribute
     {
 

@@ -168,5 +168,20 @@ namespace Serializer
         {
             return _assemblyGeneratorType;
         }
+
+        public IEnumerable<Type> GetAttributeHandlers()
+        {
+            return _attributeHandlers;
+        }
+
+        public IEnumerable<Type> GetSpecialAttributeHandlers()
+        {
+            return _specialAttributeHandlers;
+        }
+
+        public IEnumerable<Type> GetAssemblyPartConverters()
+        {
+            return _assemblyPartConverters;
+        } 
     }
 }
