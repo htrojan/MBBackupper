@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BackendTests.cs" />
     <Compile Include="Dummy\SerializableClass.cs" />
+    <Compile Include="ObjectParser\ObjectParserTests.cs" />
     <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
