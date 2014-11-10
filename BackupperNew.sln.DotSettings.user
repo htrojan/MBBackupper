@@ -7,6 +7,7 @@
 	
 	
 	
+	
 	<s:Boolean x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=021B738B73F343628CBC9916F1B0AA5E/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=021B738B73F343628CBC9916F1B0AA5E/Name/@EntryValue">ParserTests</s:String>
 	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=021B738B73F343628CBC9916F1B0AA5E/XmlSerializedElements/@EntryValue">&lt;Session&gt;&lt;Elements&gt;&lt;UnitTestElement Provider="MSTest" Id="MsTest:Serializer.Tests.ParserTests" type="MsTestTestClassElement" TypeName="Serializer.Tests.ParserTests" Project="57FFE6B2-3827-419B-8BD4-642BA190BEBE" /&gt;&lt;UnitTestElement Provider="MSTest" Id="MsTest:Serializer.Tests.ParserTests.ParseTypeTest" ParentId="MsTest:Serializer.Tests.ParserTests" type="MsTestTestMethodElement" MethodName="ParseTypeTest" TypeName="Serializer.Tests.ParserTests" Project="57FFE6B2-3827-419B-8BD4-642BA190BEBE" /&gt;&lt;/Elements&gt;&lt;/Session&gt;</s:String>

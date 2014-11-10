@@ -6,11 +6,11 @@ namespace Serializer.SerializerI
 {
     public class AssemblyGeneratorParams
     {
-        private SerializationTree _tree;
-        private string _backendIdentifier;
-        private Dictionary<Type, IAttributeHandler> _attributeMap;
-        private Dictionary<Type, IAssemblyPartConverter> _converterMap;
-        private Type _assemblyType;
+        private readonly SerializationTree _tree;
+        private readonly string _backendIdentifier;
+        private readonly Dictionary<Type, IAttributeHandler> _attributeMap;
+        private readonly Dictionary<Type, IAssemblyPartConverter> _converterMap;
+        private readonly Type _assemblyType;
 
         public AssemblyGeneratorParams(SerializationTree tree, string backendIdentifier, Dictionary<Type, IAttributeHandler> attributeMap, Dictionary<Type, IAssemblyPartConverter> converterMap, Type assemblyType)
         { 
