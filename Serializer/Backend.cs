@@ -75,7 +75,7 @@ namespace Serializer
 
         public ISet<Type> GetSupportedAtomicTypes()
         {
-            var supportedTypes = GetSupportedTypesWithin(_attributeHandlers);
+            var supportedTypes = GetSupportedTypesWithin(_assemblyPartConverters);
             return supportedTypes;
         }
 
