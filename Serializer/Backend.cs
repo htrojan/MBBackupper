@@ -139,6 +139,8 @@ namespace Serializer
             //There is only one property with that name
             var backendIdentifier = objType.GetProperties().First(info => info.Name == "BackendIdentifier");
             backendIdentifier.SetValue(obj, AttributeHelper.GetBackendIdentifierAttribute(objType).GetBackendIdentifier());
+          //  var setter = backendIdentifier.SetMethod;
+            //Console.Out.WriteLine("setter = {0}", setter);
         }
 
         public string BackendIdentifier {

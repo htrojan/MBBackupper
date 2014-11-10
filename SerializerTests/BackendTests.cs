@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Serializer;
+using DummyBackend;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Serializer.SerializerI;
 using Assembly = System.Reflection.Assembly;
 
+// ReSharper disable once CheckNamespace
 namespace Serializer.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class BackendTests
     {
         private const string AssemblyPath = @"DummyBackend.dll";
@@ -25,80 +23,129 @@ namespace Serializer.Tests
            // Console.Out.WriteLine("{0}", _assembly.FullName);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void LoadBackendAssemblyTypeTest()
         {
             Backend backend = Backend.LoadBackend(_assembly);   
-            Assert.AreEqual(typeof(DummyBackend.DummyAssembly), backend.GetAssemblyType());
+            Assert.AreEqual(typeof(DummyAssembly), backend.GetAssemblyType());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void LoadBackendAssemblyPartConvertersTest() 
         {
             var backend = Backend.LoadBackend(_assembly);
-            List<Type> expectedTypes = new List<Type>()
+            List<Type> expectedTypes = new List<Type>
             {
-                typeof(DummyBackend.DummyIntAssemblyPartConverter)
+                typeof(DummyIntAssemblyPartConverter)
             };
             CollectionAssert.AreEqual(expectedTypes, new List<Type>(backend.GetAssemblyPartConverters()));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void LoadBackendAttributeHandlersTest()
         {
             var backend = Backend.LoadBackend(_assembly);
-            List<Type> expectedTypes = new List<Type>()
+            List<Type> expectedTypes = new List<Type>
             {
-                typeof(DummyBackend.DummyAttributeHandler)
+                typeof(DummyAttributeHandler)
             };
             CollectionAssert.AreEqual(expectedTypes, new List<Type>(backend.GetAttributeHandlers()));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void LoadBackendAssemblyGeneratorTest()
         {
             var backend = Backend.LoadBackend(_assembly);
-            Assert.AreEqual(typeof(DummyBackend.DummyAssemblyGenerator), backend.GetAssemblyGeneratorType());
+            Assert.AreEqual(typeof(DummyAssemblyGenerator), backend.GetAssemblyGeneratorType());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetSupportedAtomicTypesTest()
         {
             var backend = Backend.LoadBackend(_assembly);
-            ISet<Type> expectedSupportedAtomicTypes = new HashSet<Type>()
+            ISet<Type> expectedSupportedAtomicTypes = new HashSet<Type>
             {
                 typeof(int)
             };
+            var supTypes = backend.GetSupportedAtomicTypes();
             CollectionAssert.AreEqual(expectedSupportedAtomicTypes.ToList(), backend.GetSupportedAtomicTypes().ToList());
         }
 
-        [TestMethod()]
-        public void GetSupportedSpecialTypesTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void GetAttributeHandlerMapAllTypesContainedTest()
+        [TestMethod]
+        public void GetAttributeHandlerMapAllKeysContainedTest()
         {
             var backend = Backend.LoadBackend(_assembly);
-            var expected = new List<Type>()
+            var expected = new List<Type>
             {
-                typeof(int)
+                typeof(DummyAttribute)
             };
             CollectionAssert.AreEqual(expected, backend.GetAttributeHandlerMap().Keys);
         }
 
-        [TestMethod()]
-        public void GetAssemblyPartConverterMapTest()
+        [TestMethod]
+        public void GetAttributeHandlerMapAllValuesContainedTest()
         {
-            Assert.Fail();
+            var backend = Backend.LoadBackend(_assembly);
+            var expected = new List<Type>
+            {
+                typeof(DummyAttributeHandler)
+            };
+            var actual = from attributeHandler in backend.GetAttributeHandlerMap()
+                select attributeHandler.Value.GetType();
+            
+            CollectionAssert.AreEqual(expected, new List<Type>(actual));
         }
 
-        [TestMethod()]
+        [TestMethod]
+        public void GetAttributeHandlerMapCorrectMapping()
+        {
+            var backend = Backend.LoadBackend(_assembly);
+            var expected = typeof (DummyAttributeHandler);
+            var map = backend.GetAttributeHandlerMap();
+            var actual = map[typeof (DummyAttribute)].GetType();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetAssemblyPartConverterMapAllKeysContainedTest()
+        {
+            var backend = Backend.LoadBackend(_assembly);
+            var expected = new List<Type>
+            {
+                typeof(int)
+            };
+
+            CollectionAssert.AreEqual(expected, backend.GetAssemblyPartConverterMap().Keys);
+        }
+
+        [TestMethod]
+        public void GetAssemblyPartConverterMapAllValuesContainedTest()
+        {
+            var backend = Backend.LoadBackend(_assembly);
+            var expected = new List<Type>
+            {
+                typeof(DummyIntAssemblyPartConverter)
+            };
+
+            var actual = from converter in backend.GetAssemblyPartConverterMap().Values 
+                    select converter.GetType();
+
+            CollectionAssert.AreEqual(expected, new List<Type>(actual));
+        }
+
+        [TestMethod]
+        public void GetAssemblyPartConverterMapCorrectMappingTest()
+        {
+            var backend = Backend.LoadBackend(_assembly);
+            Assert.AreEqual(typeof(DummyIntAssemblyPartConverter), backend.GetAssemblyPartConverterMap()[typeof(int)].GetType());
+        }
+
+        [TestMethod]
         public void GetAssemblyGeneratorInstanceTest()
         {
-            Assert.Fail();
+            var backend = Backend.LoadBackend(_assembly);
+            AssemblyGeneratorParams mockParams = new AssemblyGeneratorParams(null, null, null, null, null);
+            Assert.IsInstanceOfType(backend.GetAssemblyGeneratorInstance(mockParams), typeof(AssemblyGenerator));
         }
 
 

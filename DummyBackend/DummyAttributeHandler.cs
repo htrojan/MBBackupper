@@ -9,19 +9,12 @@ using Serializer.TypeParser;
 
 namespace DummyBackend
 {
-    [Mapping(typeof(int))]
+    [Mapping(typeof(DummyAttribute))]
     [BackendIdentifier("dummy")]
     public class DummyAttributeHandler : IAttributeHandler
     {
-        //The field is initialized with reflection
-#pragma warning disable 649
-        private string _backendIdentifier;
-#pragma warning restore 649
 
-        public string BackendIdentifier
-        {
-            get { return _backendIdentifier; }
-        }
+        public string BackendIdentifier { get; private set; }
 
         public void Execute(ref AssemblyPart element, SerializerAttribute attribute)
         {
