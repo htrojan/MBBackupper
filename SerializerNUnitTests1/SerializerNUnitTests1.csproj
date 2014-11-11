@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{57FFE6B2-3827-419B-8BD4-642BA190BEBE}</ProjectGuid>
+    <ProjectGuid>{446245C9-0336-4C39-934B-3FC826C3E154}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SerializerTests</RootNamespace>
-    <AssemblyName>SerializerTests</AssemblyName>
+    <RootNamespace>SerializerNUnitTests1</RootNamespace>
+    <AssemblyName>SerializerNUnitTests1</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,11 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NSubstitute">
-      <HintPath>..\packages\NSubstitute.1.8.0.0\lib\net45\NSubstitute.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
-    <Reference Include="nunit.mocks, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -55,23 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BackendTests.cs" />
-    <Compile Include="Dummy\SerializableClass.cs" />
-    <Compile Include="ObjectParser\ObjectParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DummyBackend\DummyBackend.csproj">
-      <Project>{c1cb1bb1-f30f-4db2-8bd5-541d82da98ab}</Project>
-      <Name>DummyBackend</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Serializer\Serializer.csproj">
-      <Project>{4A141D1F-DB61-4C7D-8BCB-4A90C591249D}</Project>
-      <Name>Serializer</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
