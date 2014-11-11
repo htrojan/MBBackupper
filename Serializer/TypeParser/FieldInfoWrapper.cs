@@ -18,7 +18,7 @@ namespace Serializer.TypeParser
 
         public Type GetValueType()
         {
-            return _field.GetType();
+            return _field.FieldType;
         }
 
         public object GetValue(object obj)
