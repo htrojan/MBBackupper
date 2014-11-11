@@ -15,7 +15,7 @@ namespace Serializer.TypeParser
             _attributes = new List<SerializerAttribute>();
         }
 
-        public IEnumerable<SerializerAttribute> Attributes
+        public virtual IEnumerable<SerializerAttribute> Attributes
         {
             get
             {
@@ -27,7 +27,7 @@ namespace Serializer.TypeParser
             }
         }
 
-        public IEnumerable<AtomicType> AtomicTypes
+        public virtual IEnumerable<AtomicType> AtomicTypes
         {
             get
             {

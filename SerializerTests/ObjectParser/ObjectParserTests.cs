@@ -18,19 +18,35 @@ namespace Serializer.ObjectParser.Tests
     {
      
         [Test()]
-        public void ParseTest()
+        public void ParseContainsCorrectValueTest()
         {
             var tree = Substitute.For<SerializationTree>();
-            FieldInfo info = null;
-            var atomicType = Substitute.For<AtomicType>();
-
-            atomicType.GetValue(Arg.Any<Object>()).Returns(5);
+            var atomicType = Substitute.For<AtomicType>(new object[]{null});
             atomicType.Name.Returns("Dummy");
+            atomicType.GetValue(Arg.Any<Object>()).Returns(5);
 
-            tree.AtomicTypes.Returns(new List<AtomicType>() {atomicType});
+            var atomicTypes = new List<AtomicType> {atomicType};
+
+            tree.AtomicTypes.Returns(atomicTypes);
+            
 
             ValuePool result = ObjectParser.Parse(tree, new DummyObj(){Dummy = 5});
             Assert.That(result.Values, Contains.Item(5));
+        }
+
+        [Test]
+        public void ParseContainsCorrectMappingTset()
+        {
+            var tree = Substitute.For<SerializationTree>();
+            var atomicType = Substitute.For<AtomicType>(new object[] { null });
+            atomicType.Name.Returns("Dummy");
+            atomicType.GetValue(Arg.Any<Object>()).Returns(5);
+
+            var atomicTypes = new List<AtomicType> { atomicType };
+
+            tree.AtomicTypes.Returns(atomicTypes);
+            ValuePool result = ObjectParser.Parse(tree, new DummyObj() { Dummy = 5 });
+            Assert.That(result.GetValue("Dummy"), Is.EqualTo(5));
         }
     }
 
