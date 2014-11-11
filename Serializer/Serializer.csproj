@@ -69,8 +69,11 @@
     <Compile Include="Attributes\NonSerializableAttribute.cs" />
     <Compile Include="Attributes\SerializableAttribute.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="TypeParser\FieldInfoWrapper.cs" />
     <Compile Include="TypeParser\IAttributeContainer.cs" />
+    <Compile Include="TypeParser\IField.cs" />
     <Compile Include="TypeParser\ISerializationType.cs" />
+    <Compile Include="TypeParser\PropertyInfoWrapper.cs" />
     <Compile Include="TypeParser\TypeParser.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

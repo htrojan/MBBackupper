@@ -130,7 +130,7 @@ namespace Serializer.TypeParser
         {
             var attributes = GetFilteredAttributes(field);
 
-            AtomicType type = new AtomicType(field) {Attributes = attributes};
+            AtomicType type = new AtomicType(new FieldInfoWrapper(field)) {Attributes = attributes};
             _tree.AddAtomicType(type);
         }
 
@@ -138,7 +138,7 @@ namespace Serializer.TypeParser
         {
             var attributes = GetFilteredAttributes(property);
 
-            AtomicType type = new AtomicType(property) { Attributes = attributes };
+            AtomicType type = new AtomicType(new PropertyInfoWrapper(property)) { Attributes = attributes };
             _tree.AddAtomicType(type);
         }
 
