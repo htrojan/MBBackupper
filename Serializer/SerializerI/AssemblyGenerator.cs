@@ -56,12 +56,8 @@ namespace Serializer.SerializerI
 
         private void ApplyAttributeHandlersToValue(AssemblyPart element, IEnumerable<SerializerAttribute> attributes)
         {
-            //Select only attributes with the same BackendItentifier
-            var matchingAttributes = from attribute in attributes
-                where attribute.BackendIdentifier == BackendIdentifier
-                select attribute;
 
-            foreach (var attribute in matchingAttributes)
+            foreach (var attribute in attributes)
             {
                 IAttributeHandler handler = _attributeMap[attribute.GetType()];
                 if (handler.CanExecute(attribute))

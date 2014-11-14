@@ -92,7 +92,7 @@ namespace Serializer.TypeParser
             return _type.GetField(GetBackingFieldName(property.Name), BindingFlags.Instance | BindingFlags.NonPublic);
         }
 
-        private string GetBackingFieldName(string propertyName)
+        private static string GetBackingFieldName(string propertyName)
         {
             return string.Format("<{0}>k__BackingField", propertyName);
         }

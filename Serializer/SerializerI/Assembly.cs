@@ -5,7 +5,7 @@ using Serializer.Attributes;
 
 namespace Serializer.SerializerI
 {
-    public abstract class Assembly
+    public abstract class Assembly : IIdentifiableBackend
     {
         [UsedImplicitly]
         protected List<AssemblyPart> _parts;
@@ -27,5 +27,7 @@ namespace Serializer.SerializerI
         }
 
         public abstract void Serialize(object destination);
+
+        public string BackendIdentifier { get; [UsedImplicitly] private set; }
     }
 }

@@ -3,8 +3,8 @@ using Serializer.SerializerI;
 
 namespace Serializer.TypeParser
 {
-    public class SerializerAttribute : Attribute, IIdentifiableBackend
+    public class SerializerAttribute : Attribute
     {
-        public string BackendIdentifier { get; private set; }
+        
     }
 }
