@@ -15,7 +15,8 @@ namespace DummyBackend
     {
         public AssemblyPart Convert(object value)
         {
-            return new DummyAssemblyPart();
+            var part = new DummyAssemblyPart {IntValue = (int)value};
+            return part;
         }
 
         public string BackendIdentifier { get; [UsedImplicitly] private set; }

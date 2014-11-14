@@ -39,7 +39,7 @@ namespace Serializer.SerializerI.Tests
             Assembly actualAssembly = generator.CreateAssembly(values);
 
             Assert.That(actualAssembly.Parts.Count(), Is.EqualTo(1));
-
+            Assert.That(List.Map(new List<AssemblyPart>(actualAssembly.Parts)).Property("Value"), Contains.Item(5));
         }
 
     }

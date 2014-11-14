@@ -13,5 +13,11 @@ namespace DummyBackend
     public class DummyAssemblyPart : AssemblyPart, IIdentifiableBackend
     {
         public string BackendIdentifier { get; [UsedImplicitly] private set; }
+
+        public int IntValue
+        {
+            get { return (int) _value; }
+            set { _value = value; }
+        }
     }
 }
