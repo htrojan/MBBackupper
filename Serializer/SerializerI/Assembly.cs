@@ -10,9 +10,9 @@ namespace Serializer.SerializerI
         [UsedImplicitly]
         protected List<AssemblyPart> _parts;
 
-        protected Assembly(List<AssemblyPart> parts)
+        protected Assembly(IEnumerable<AssemblyPart> parts)
         { 
-            _parts = parts;
+            _parts = new List<AssemblyPart>(parts);
         }
 
         public IEnumerable<AssemblyPart> Parts

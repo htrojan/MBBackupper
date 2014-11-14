@@ -15,7 +15,7 @@ namespace DummyBackend
     {
         public AssemblyPart Convert(object value)
         {
-            throw new NotImplementedException();
+            return new DummyAssemblyPart();
         }
 
         public string BackendIdentifier { get; [UsedImplicitly] private set; }

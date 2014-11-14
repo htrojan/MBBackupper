@@ -12,7 +12,7 @@ namespace DummyBackend
     [BackendIdentifier("dummy")]
     public class DummyAssembly : Assembly, IIdentifiableBackend
     {
-        public DummyAssembly(List<AssemblyPart> parts) : base(parts)
+        public DummyAssembly(IEnumerable<AssemblyPart> parts) : base(parts)
         {
         }
 

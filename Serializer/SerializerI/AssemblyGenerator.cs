@@ -31,7 +31,7 @@ namespace Serializer.SerializerI
         }
 
 // ReSharper disable once MemberCanBePrivate.Global
-        public string BackendIdentifier { [UsedImplicitly] get; private set; }
+        public virtual string BackendIdentifier { [UsedImplicitly] get; private set; }
 
         public Assembly CreateAssembly(ValuePool values)
         {
