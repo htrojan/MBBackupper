@@ -14,7 +14,7 @@ using Serializer.TypeParser;
 // ReSharper disable once CheckNamespace
 namespace Serializer.SerializerI.Tests
 {
-    [TestFixture()]
+    [TestFixture]
     public class AssemblyGeneratorTests
     {
         private const string AssemblyPath = @"DummyBackend.dll"; 
