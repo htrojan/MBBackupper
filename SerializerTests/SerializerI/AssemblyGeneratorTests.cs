@@ -17,7 +17,7 @@ namespace Serializer.SerializerI.Tests
     [TestFixture()]
     public class AssemblyGeneratorTests
     {
-        private const string AssemblyPath = @"DummyBackend.dll";
+        private const string AssemblyPath = @"DummyBackend.dll"; 
         private Backend _backend;
 
         [TestFixtureSetUp]
